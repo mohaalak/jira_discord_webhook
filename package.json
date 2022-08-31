@@ -1,0 +1,14 @@
+{
+  "name": "discord_jira_webhook",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1"
+  },
+  "scripts": {
+    "start": "node src/index.js"
+  }
+}
