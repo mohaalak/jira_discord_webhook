@@ -28,10 +28,10 @@ app.post(jiraWebhook, async (req, res) => {
           embeds: [
             {
               type: "rich",
-              title: `${issue.summary} [Status updated]`,
+              title: `${issue.fields.summary} [Status updated]`,
               description: `${user.displayName} changed the status of [${issue.key}](${jiraBaseUrl}/browse/${issue.key}) from \`${fromString}\` to \`${toString}\``,
               color: 0x72fb5d,
-              timestamp: new Date(issue.updated),
+              timestamp: new Date(issue.fields.updated).getTime(),
               url: `${jiraBaseUrl}/browse/${issue.key}`,
             },
           ],
