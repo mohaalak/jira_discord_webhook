@@ -15,8 +15,8 @@ app.post(jiraWebhook, async (req, res) => {
   const body = req.body;
 
   res.status(200).send();
-  switch (body.issue_event_type_name) {
-    case "issue_updated": {
+  switch (body.webhookEvent) {
+    case "jira:issue_updated": {
       const statusUpdated = body.changelog.items.find(
         (x) => x.field === "status"
       );
