@@ -5,10 +5,12 @@ const jiraWebhook = process.env.JIRA_WEBHOOK;
 const jiraBaseUrl = process.env.JIRA_BASE_URL;
 
 const express = require("express");
+const bodyParser = require("body-parser");
 const axios = require("axios").default;
 
 const app = express();
 
+app.use(bodyParser.json());
 app.post(jiraWebhook, async (req, res) => {
   const body = req.body;
 
