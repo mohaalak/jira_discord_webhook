@@ -39,6 +39,28 @@ app.post(jiraWebhook, async (req, res) => {
       }
       break;
     }
+    case "jira:issue_created": {
+      const createdUser = body.user.displayName;
+      const issueKey = body.issue.key;
+      const title = body.issue.fields.summary;
+
+      const issueType = body.issue.fields.issueType.name;
+      const assigneeUser = body.issue.fields.assignee.name;
+      await axios.post(discordWebhook, {
+        embeds: [
+          {
+            type: "rich",
+            title: `[${issueKey}] ${title}  [${issueType} Created]`,
+            description: `${createdUser} created [${issue.key}](${jiraBaseUrl}/browse/${issueKey}) and assigned it to ${assigneeUser}`,
+            color: 0xfffb5d,
+            timestamp: new Date(issue.fields.created),
+            url: `${jiraBaseUrl}/browse/${issueKey}`,
+          },
+        ],
+      });
+
+      break;
+    }
     default: {
       console.log(JSON.stringify(body, null, 2));
     }
