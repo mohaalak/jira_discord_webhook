@@ -61,6 +61,28 @@ app.post(jiraWebhook, async (req, res) => {
 
       break;
     }
+    case "comment_created": {
+      const comment = body.comment.body;
+      const author = body.comment.author;
+      const issueKey = body.issue.key;
+      const issueSummary = body.issue.fields.summary;
+      const created = new Date(body.comment.created);
+
+      await axios.post(discordWebhook, {
+        embeds: [
+          {
+            type: "rich",
+            title: `${author} commented on [${issueKey}]${issueSummary}`,
+            description: comment,
+            color: 0x10fbfd,
+            timestamp: created,
+            url: `${jiraBaseUrl}/browse/${issueKey}`,
+          },
+        ],
+      });
+      break;
+    }
+
     default: {
       console.log(JSON.stringify(body, null, 2));
     }
