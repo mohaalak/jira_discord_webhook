@@ -63,7 +63,7 @@ app.post(jiraWebhook, async (req, res) => {
     }
     case "comment_created": {
       const comment = body.comment.body;
-      const author = body.comment.author;
+      const author = body.comment.author.displayName;
       const issueKey = body.issue.key;
       const issueSummary = body.issue.fields.summary;
       const created = new Date(body.comment.created);
