@@ -3,6 +3,7 @@ require("dotenv").config();
 const discordWebhook = process.env.DISCORD_WEBHOOK;
 const jiraWebhook = process.env.JIRA_WEBHOOK;
 const jiraBaseUrl = process.env.JIRA_BASE_URL;
+const filterWords = process.env.FILTER_WORDS?.split("##") || [];
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -67,6 +68,9 @@ app.post(jiraWebhook, async (req, res) => {
       const issueKey = body.issue.key;
       const issueSummary = body.issue.fields.summary;
       const created = new Date(body.comment.created);
+      if (filterWords.some((x) => comment.includes(filterWords))) {
+        return;
+      }
 
       await axios.post(discordWebhook, {
         embeds: [
